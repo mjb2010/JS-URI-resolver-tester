@@ -1,7 +1,7 @@
 # URI resolver tester
 An in-browser test suite for JavaScript-based URI resolver libraries
 
-Released under a Creative Commons "CC0" Public Domain Dedication; see https://creativecommons.org/publicdomain/zero/1.0/
+License: Released under a Creative Commons "CC0" Public Domain Dedication; see https://creativecommons.org/publicdomain/zero/1.0/
 
 The main "app" is uri_tests.html.
 To run the tests, just load that document in a web browser.
