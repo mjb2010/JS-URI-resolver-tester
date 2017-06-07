@@ -16,3 +16,5 @@ One of the functions tested is my own code (uri_funcs.js) which implements the "
 The other functions to test are imported from other people's libraries, although I may have modified them slightly just to get them to run in a browser and integrate with the test suite.
 
 As of mid-2017, Tim Berners-Lee's library is hosted on a server at MIT which still does not have HTTPS service configured properly. So for now, I am just loading that file via regular HTTP, which means your browser may complain about mixed/insecure content. For example, in Chrome, if you load uri_tests.html via HTTPS, then the tests won't run until you click on the shield icon in the omnibar and allow the insecure content to load.
+
+The test suite currently does not test or support the optional normalization steps allowed by section 6 of the spec.
