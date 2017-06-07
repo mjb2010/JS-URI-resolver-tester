@@ -19,14 +19,16 @@
     <script language="javascript" type="text/javascript" src="uri_tests.js"></script>
 
     <!--libraries containing functions to test-->
-    <!--1. uri.js from TimBL's Tabulator 0.8-->
-    <script language="javascript" type="text/javascript" src="http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/uri.js"></script>
-    <!--2. uri_funcs.js from Mike Brown's uri_funcs.js-->
+    <!--1a. local copy of uri_funcs.js from Mike J. Brown (mjb2010)'s URI Resolver Tester-->
     <script language="javascript" type="text/javascript" src="uri_funcs.js"></script>
-    <!--3. uris.js from Nathan Rixham's webr3 URI Type library-->
+    <!--1b. remote copy of uri_funcs.js from Mike J. Brown (mjb2010)'s URI Resolver Tester-->
+    <!--<script language="javascript" type="text/javascript" src="https://raw.github.com/mjb2010/JS-URI-resolver-tester/master/uri_funcs.js"></script>-->
+    <!--2. uri.js from TimBL's Tabulator 0.8-->
+    <script language="javascript" type="text/javascript" src="http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/uri.js"></script>
+    <!--3. uris.js from Nathan Rixham (webr3)'s URI Type library-->
     <script language="javascript" type="text/javascript" src="https://raw.github.com/webr3/URI/master/uris.js"></script>
     <script language="javascript" type="text/javascript">
-      /* wrapper for webr3 code */
+      /* wrapper for webr3's code */
       function resolveRef(ref, base) {
         var u = new URI(base);
         return u.resolveReference(ref);
@@ -81,7 +83,7 @@
         functionsToTest = [
           [absolutizeURI, "absoluteizeURI", "Mike Brown's absolutizeURI() from his uri_funcs.js library"],
           [Util.uri.join, "Util.uri.join", "Tim Berners-Lee's Util.uri.join() from Tabulator 0.8"],
-          [resolveRef, "URI.resolveReference", "Nathan Rixham's URI.resolveReference() from Mike Brown's bug-fixed fork of Nathan's webr3 URI Type library"]
+          [resolveRef, "URI.resolveReference", "Nathan Rixham's URI.resolveReference() from his URI Type library"]
         ];
       } catch (e) {
         resultsDiv.innerHTML += "<h4>WARNING: Some functions to test could not be loaded.</h4>";
