@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=windows-1252">
+    <meta name="Description" content="This HTML document invokes a set of unit tests for a JavaScript function that resolves URI references to absolute form.">
+    <meta name="Author" content="Mike J. Brown &lt;mike -at- skew.org&gt;">
+    <title>JavaScript URI functions &ndash; unit tests</title>
+    <style type="text/css">
+      body { font-family: sans-serif; font-size: 80%; background-color: #ddd; }
+      h3 { text-decoration: underline; }
+      table { border-style: outset; border-collapse: collapse; border-width: 1px; border-color: green; background-color: #eee; }
+      td,th { border-style: inset;  border-width: 1px; border-color: #aaa; }
+      th { background-color: #ce8; border-bottom: 2px solid black; }
+      .failure { background-color: #eaa; }
+      .uri { font-family: monospace; }
+    </style>
+
+    <!--unit test framework-->
+    <script language="javascript" type="text/javascript" src="uri_tests.js"></script>
+
+    <!--libraries containing functions to test-->
+    <!--1. uri.js from TimBL's Tabulator 0.8-->
+    <script language="javascript" type="text/javascript" src="http://dig.csail.mit.edu/2005/ajar/release/tabulator/0.8/uri.js"></script>
+    <!--2. uri_funcs.js from Mike Brown's uri_funcs.js-->
+    <script language="javascript" type="text/javascript" src="uri_funcs.js"></script>
+    <!--3. uris.js from Nathan Rixham's webr3 URI Type library-->
+    <!--   3a. official version of uris.js (17 Nov 2010 version; has infinite loop bug)-->
+    <!--   <script language="javascript" type="text/javascript" src="https://raw.github.com/webr3/URI/master/uris.js"></script>-->
+    <!--   3b. modified local version of uris.js (I have fixed the bug)-->
+    <script language="javascript" type="text/javascript" src="uris.js"></script>
+    <!--   3c. modified remote version of uris.js (same as local version)-->
+    <!--   <script language="javascript" type="text/javascript" src="https://raw.github.com/mjb2010/URI/master/uris.js"></script>-->
+    <script language="javascript" type="text/javascript">
+      /* wrapper for webr3 code */
+      function resolveRef(ref, base) {
+        var u = new URI(base);
+        return u.resolveReference(ref);
+      }
+    </script>
+  </head>
+  <body>
+
+    <h1>JavaScript URI functions &ndash; unit tests</h1>
+
+    <p id="description">This HTML document invokes a set of unit tests for JavaScript functions that resolve URI references to absolute form.</p>
+
+    <h4>History:</h4>
+    <ul>
+      <li>4 Jan 2007 &ndash; Original version of this document</li>
+      <li>16 Jun 2007 &ndash; Fixed reference to TimBL's uri.js, which moved from its original location</li>
+      <li>14 Dec 2011 &ndash; Added webr3 URI.resolveReference test and links to jump to each test result</li>
+      <li>24 Jun 2012 &ndash; Added note explaining weird results for certain tests</li>
+      <li>15 Oct 2012 &ndash; Added link to discussion</li>
+      <li>9 Jul 2014 &ndash; Added rudimentary handling of library load failures; rephrased intro note</li>
+    </ul>
+    
+    <h4>Important note:</h4>
+    <p>These tests expect the "wrong" results when merging a relative path with a base URI consisting of just a
+       scheme and a relative path (no leading "/"). The tests affected are 2, 6, 7, and maybe 162.</p>
+    <p>The expected results are incorrect according to RFC 3986/STD 66, but are actually better than what the algorithm
+       in the spec produces. When RFC 3986/STD 66 was in development, Graham Klyne
+       <a href="http://lists.w3.org/Archives/Public/uri/2004Feb/0108.html" target="_new">reported this issue</a> and
+       suggested that the resolution algorithm be adjusted to provide a more reasonable result. There was no argument,
+       so I made my absoluteizeURI() function and these unit tests with the expectation that the final draft of the
+       URI spec would contain a fix for the issue. However, when RFC 3986 was finally published, there was no change
+       to the resolution algorithm.</p>
+    <p>I finally got around to <a href="http://lists.w3.org/Archives/Public/uri/2012Oct/0002.html">mentioning this</a>
+       on the URI WG list in Oct. 2012, in response to a post which indicated that there are more JavaScript libraries
+       out there which I could add to this test harness. However, nothing was ever done about it.</p>
+
+    <noscript>
+      <h4>JavaScript/JScript/ECMAScript must be available and enabled in your web browser.</h4>
+    </noscript>
+
+    <hr/>
+
+    <div id="results"></div>
+
+    <script language="javascript" type="text/javascript">
+
+      resultsDiv = document.getElementById("results");
+
+      try {
+        // list of functions to test from libraries loaded in document head
+        functionsToTest = [
+          [absolutizeURI, "absoluteizeURI", "Mike Brown's absolutizeURI() from his uri_funcs.js library"],
+          [Util.uri.join, "Util.uri.join", "Tim Berners-Lee's Util.uri.join() from Tabulator 0.8"],
+          [resolveRef, "URI.resolveReference", "Nathan Rixham's URI.resolveReference() from Mike Brown's bug-fixed fork of Nathan's webr3 URI Type library"]
+        ];
+      } catch (e) {
+        resultsDiv.innerHTML += "<h4>WARNING: Some functions to test could not be loaded.</h4>";
+        if (window.location.protocol.substr(0,5) == 'https') {
+          resultsDiv.innerHTML += " You may need to enable loading of external scripts from insecure (non-HTTPS) sources.";
+        }
+        resultsDiv.innerHTML += "<p>(The actual error was: <i>" + e.message + "</i>.)";
+      }
+
+      numFuncs = functionsToTest.length;
+      resultsDiv.innerHTML += "<h4>Quick links:</h4><ul>";
+      for (var i = 0; i < numFuncs; i++) {
+        funcName = functionsToTest[i][1];
+        funcDesc = functionsToTest[i][2];
+        resultsDiv.innerHTML += "<li><a href=\"#" + funcName + "\">Results of testing " + funcDesc + "<\/li>";
+      }
+      resultsDiv.innerHTML += "<\/ul>";
+
+      for (var i = 0; i < numFuncs; i++) {
+        func = functionsToTest[i][0];
+        funcName = functionsToTest[i][1];
+        funcDesc = functionsToTest[i][2];
+        resultsDiv.innerHTML += "<hr\/><h3 id=\"" + funcName + "\">Results of testing " + funcDesc + "<\/h3>";
+        var results, resultmsg;
+        try {
+          results = testAbsolutize(func, absolutizeTestCases);
+          resultmsg = results.length + " tests were run.";
+        } catch (ex) {
+          results = []
+          resultmsg = "There was a problem: " + String(ex);
+        }
+        resultsDiv.innerHTML += "<p>" + resultmsg + "<\/p>";
+
+      	var numresults = results.length;
+      	var a = [];
+        var failurecount = 0;
+      	for (var j = 0; j < numresults; j++) {
+      		var r = results[j];
+          var success=r[0], uriRef=r[1], baseUri=r[2], expectedUri=r[3], testResult=r[4];
+          var successMsg = (success && "success" || "failure");
+          var expectedUriMsg;
+          if (!success) failurecount++;
+          if (success) {
+            expectedUriMsg = "";
+          } else if (expectedUri instanceof Array) {
+            expectedUriMsg = " (expected <span class=\"uri\">" +
+                             expectedUri.join("<\/span> or <span class=\"uri\">") + "<\/span>)";
+          } else {
+            expectedUriMsg = " (expected <span class=\"uri\">" + expectedUri + "<\/span>)";
+          }
+      		a.push("<tr class=\"" + successMsg + "\">" +
+                 "<td>" + (j+1) + "<\/td>" +
+                 "<td>" + successMsg + "<\/td>" +
+                 "<td class=\"uri\">" + uriRef + "<\/td>" +
+                 "<td class=\"uri\">" + baseUri + "<\/td>" +
+                 "<td><span class=\"uri\">" + testResult + "<\/span>" + expectedUriMsg + "<\/td>" +
+                 "<\/tr>");
+      	}
+        var tableHtml = "<table><thead><tr>" +
+                        "<th>#<\/th><\/th>" +
+                        "<th>Outcome<\/th>" +
+                        "<th>URI reference<\/th>" +
+                        "<th>Base URI<\/th>" +
+                        "<th>Result<\/th>" +
+                        "<\/tr><\/thead><tbody>" + a.join("") + "<\/tbody><\/table>";
+        resultsDiv.innerHTML += tableHtml + "<p>" + failurecount + " tests failed.<\/p>";
+      }
+      resultsDiv.innerHTML += "<p>End of tests.<\/p>";
+    </script>
+  </body>
+</html>
