@@ -13,7 +13,7 @@ The test suite uses JavaScript to:
 2. Subject those functions to a battery of test cases.
 3. Output the results in an HTML table.
 
-One of the functions tested is my own code (uri_funcs.js) which implements the "remove_dot_segments" portion of the algorithm by using "two segment stacks rather than strings". This is something the spec suggests applications may do for efficiency. I don't know if it is actually more efficient; I just did it for the novelty. I originally wrote this code in Python; see absolutize() in [Uche Ogbuji's Amara](https://github.com/uogbuji/amara3-iri/blob/master/lib/iri.py) library. The test suite itself is based on Python [code I co-wrote](https://web.archive.org/web/20060514093956/http://cvs.4suite.org/viewcvs/4Suite/test/Lib/test_uri.py?view=markup) for Amara's predecessor, 4Suite XML.
+One of the functions tested is my own code (uri_funcs.js) which implements the "remove_dot_segments" portion of the algorithm by using "two segment stacks rather than strings". This is something the spec suggests applications may do for efficiency. I don't know if it is actually more efficient; I just did it for the novelty. I originally wrote this resolver and [a very similar test suite](https://web.archive.org/web/20060514093956/http://cvs.4suite.org/viewcvs/4Suite/test/Lib/test_uri.py?view=markup) for the Python-based 4Suite XML toolkit, and it lives on in [Uche Ogbuji's Amara](https://github.com/uogbuji/amara3-iri/blob/master/lib/iri.py) library.
 
 The other functions to test are imported from other people's libraries, although I may have modified them slightly just to get them to run in a browser and integrate with the test suite.
 
