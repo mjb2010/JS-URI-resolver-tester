@@ -275,7 +275,7 @@ var absolutizeTestCases = [
 	// Relative82-88
 	["http:this", "http://example.org/base/uri", "http:this"],
 	["http:this", "http:base", "http:this"],
-	[".//g", "f:/a", "f://g"],
+	[".//g", "f:/a", "f://g"], // weird but expected; see https://github.com/mjb2010/JS-URI-resolver-tester/issues/1
 	["b/c//d/e", "f://example.org/base/a", "f://example.org/base/b/c//d/e"],
 	["m2@example.ord/c2@example.org", "mid:m@example.ord/c@example.org", "mid:m@example.ord/m2@example.ord/c2@example.org"],
 	["mini1.xml", "file:///C:/DEV/Haskell/lib/HXmlToolbox-3.01/examples/", "file:///C:/DEV/Haskell/lib/HXmlToolbox-3.01/examples/mini1.xml"],
