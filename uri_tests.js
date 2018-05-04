@@ -11,6 +11,7 @@ uri_tests.js - tests for URI functions
 	2011-12-14 - Improved support for non-String-type result objects; + 5 tests.
 	2014-07-09 - Fixed code indenting & replaced dead links.
 	2017-06-06 - Added Mike Samuel's tests; replaced license & 4Suite URL.
+	2018-05-04 - Added comment to 3rd test under Relative82-88
 
 	License: CC0 <https://creativecommons.org/publicdomain/zero/1.0/>
 
